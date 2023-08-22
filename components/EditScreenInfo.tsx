@@ -16,7 +16,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
       <View style={styles.getStartedContainer}>
 
         <Text
-          style={tw`text-[17px] bg-red-500`}
+          style={tw` bg-green-500`}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
           Open up the code for this screen:

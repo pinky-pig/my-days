@@ -1,0 +1,10 @@
+{
+  // 补全 React Native 的 className
+  "ClassName": {
+    "prefix": "className", // 触发
+    "body": [
+      "className=\"$1\"" // 补全内容
+    ],
+    "description": "Insert className statement" // 描述
+  }
+}

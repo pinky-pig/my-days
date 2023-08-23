@@ -7,6 +7,7 @@ import { useColorScheme } from 'react-native'
 
 import { TamaguiProvider, Text, Theme } from 'tamagui'
 import config from '../tamagui.config'
+import { MySafeAreaView } from '~/components/MySafeAreaView'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,10 +56,12 @@ function RootLayoutNav() {
         <Theme name={colorScheme}>
 
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-            </Stack>
+            <MySafeAreaView>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+              </Stack>
+            </MySafeAreaView>
           </ThemeProvider>
         </Theme>
       </Suspense>

@@ -236,3 +236,221 @@ module.exports = function (api) {
   }
 }
 ```
+
+
+
+### 添加 Tamagui
+
+> https://tamagui.dev/docs/guides/expo  
+> https://github.com/ivopr/tamagui-expo/tree/main
+
+1. 安装依赖
+
+```bash
+npm i @tamagui/babel-plugin babel-plugin-transform-inline-environment-variables
+npx expo install react-native-reanimated
+```
+
+2. 在 babel.config.js 中配置
+
+```js
+// Don't forget to specify your TAMAGUI_TARGET here or ideally in the command to run / .env files
+process.env.TAMAGUI_TARGET = 'native'
+module.exports = function (api) {
+  api.cache(true)
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: [
+      // NOTE: this is required to pass the right environment
+      [
+        'transform-inline-environment-variables',
+        // NOTE: include is optional, you can leave this part out
+        {
+          include: ['TAMAGUI_TARGET', 'EXPO_ROUTER_APP_ROOT'],
+        },
+      ],
+
+      // NOTE: this is optional, you don't *need* the compiler
+      [
+        '@tamagui/babel-plugin',
+        {
+          components: ['tamagui'],
+          config: './tamagui.config.ts',
+          logTimings: true,
+        },
+      ],
+
+      // NOTE: this is only necessary if you are using reanimated for animations
+      'react-native-reanimated/plugin',
+    ],
+  }
+}
+```
+
+3. 在 metro.config.js 中配置
+
+```js
+// Learn more https://docs.expo.io/guides/customizing-metro
+const { getDefaultConfig } = require('expo/metro-config')
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname, {
+  // [Web-only]: Enables CSS support in Metro.
+  isCSSEnabled: true,
+})
+// Expo 49 issue: default metro config needs to include "mjs"
+// https://github.com/expo/expo/issues/23180
+config.resolver.sourceExts.push('mjs')
+module.exports = config
+```
+
+
+4. 添加 Tamagui Theme
+
+安装依赖
+
+```bash
+npm i tamagui expo-font @tamagui/font-inter @tamagui/theme-base @tamagui/animations-react-native @tamagui/config react-native-web react-dom
+```
+手动添加文件 tamagui.config.ts 并写入
+
+```ts
+import { createAnimations } from '@tamagui/animations-react-native'
+import { createInterFont } from '@tamagui/font-inter'
+import { createMedia } from '@tamagui/react-native-media-driver'
+import { shorthands } from '@tamagui/shorthands'
+import { themes, tokens } from '@tamagui/themes'
+import { createTamagui } from 'tamagui'
+
+const animations = createAnimations({
+  bouncy: {
+    type: 'spring',
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100,
+  },
+  lazy: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 60,
+  },
+  quick: {
+    type: 'spring',
+    damping: 20,
+    mass: 1.2,
+    stiffness: 250,
+  },
+})
+const headingFont = createInterFont()
+const bodyFont = createInterFont()
+const config = createTamagui({
+  animations,
+  defaultTheme: 'dark',
+  shouldAddPrefersColorThemes: false,
+  themeClassNameOnRoot: false,
+  shorthands,
+  fonts: {
+    heading: headingFont,
+    body: bodyFont,
+  },
+  themes,
+  tokens,
+  media: createMedia({
+    xs: { maxWidth: 660 },
+    sm: { maxWidth: 800 },
+    md: { maxWidth: 1020 },
+    lg: { maxWidth: 1280 },
+    xl: { maxWidth: 1420 },
+    xxl: { maxWidth: 1600 },
+    gtXs: { minWidth: 660 + 1 },
+    gtSm: { minWidth: 800 + 1 },
+    gtMd: { minWidth: 1020 + 1 },
+    gtLg: { minWidth: 1280 + 1 },
+    short: { maxHeight: 820 },
+    tall: { minHeight: 820 },
+    hoverNone: { hover: 'none' },
+    pointerCoarse: { pointer: 'coarse' },
+  }),
+})
+export type AppConfig = typeof config
+declare module 'tamagui' {
+  // overrides TamaguiCustomConfig so your custom types
+  // work everywhere you import `tamagui`
+  interface TamaguiCustomConfig extends AppConfig {}
+}
+export default config
+```
+
+往根文件中添加 Provider 保证组件库生效
+
+```tsx
+// app/_layout.tsx
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { SplashScreen, Stack } from 'expo-router'
+import { Suspense, useEffect } from 'react'
+import { useColorScheme } from 'react-native'
+
+import { TamaguiProvider, Text, Theme } from 'tamagui'
+import config from '../tamagui.config'
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from 'expo-router'
+
+export const unstable_settings = {
+  // Ensure that reloading on `/modal` keeps a back button present.
+  initialRouteName: '(tabs)',
+}
+
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+SplashScreen.preventAutoHideAsync()
+
+export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+    ...FontAwesome.font,
+  })
+
+  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  useEffect(() => {
+    if (error)
+      throw error
+  }, [error])
+
+  useEffect(() => {
+    if (loaded)
+      SplashScreen.hideAsync()
+  }, [loaded])
+
+  if (!loaded)
+    return null
+
+  return <RootLayoutNav />
+}
+
+function RootLayoutNav() {
+  const colorScheme = useColorScheme()
+  return (
+    <TamaguiProvider config={config}>
+      <Suspense fallback={<Text>Loading...</Text>}>
+        <Theme name={colorScheme}>
+
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+          </ThemeProvider>
+        </Theme>
+      </Suspense>
+    </TamaguiProvider>
+  )
+}
+```
+
+
+接下来就可以在项目中引入使用了。当然别忘了清除缓存重启 `npm run clear`

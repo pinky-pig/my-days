@@ -11,6 +11,7 @@ export default {
 
     primaryColor: '#fff',
     secondColor: '#F5F7FB',
+    thirdColor: '#ccc',
   },
   dark: {
     text: '#fff',
@@ -21,5 +22,6 @@ export default {
 
     primaryColor: '#222',
     secondColor: '#2B2C30',
+    thirdColor: '#666',
   },
 }

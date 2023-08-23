@@ -1,15 +1,21 @@
 import { Feather } from '@expo/vector-icons'
 import { ChevronRight } from '@tamagui/lucide-icons'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
+import { useState } from 'react'
 import { Text, View, useColorScheme, useWindowDimensions } from 'react-native'
 import { Avatar, ListItem, ScrollView, Separator, YGroup, YStack } from 'tamagui'
 import tw from 'twrnc'
+import { ThemeSheet } from '~/components/Profile/ThemeSheet'
+
 import Colors from '~/constants/Colors'
 
 export default function Profile() {
   const { width, height } = useWindowDimensions()
   const colorScheme = useColorScheme()
   const router = useRouter()
+
+  const [position, setPosition] = useState(0)
+  const [open, setOpen] = useState(false)
 
   const profileItem = [
     [
@@ -18,17 +24,14 @@ export default function Profile() {
         icon: <Feather name="settings" size={18} color="black" />,
         subTitle: '',
         iconAfter: ChevronRight,
-        link: (
-          <Link href="/modal" asChild>
-            { }
-          </Link>
-        ),
+        onPress: () => router.push('/settings'),
       },
       {
         title: '使用方法',
         icon: <Feather name="book-open" size={18} color="black" />,
         subTitle: '',
         iconAfter: ChevronRight,
+        onPress: () => router.push('/settings'),
       },
     ],
     [
@@ -37,12 +40,14 @@ export default function Profile() {
         icon: <Feather name="airplay" size={18} color="black" />,
         subTitle: '截图分享',
         iconAfter: ChevronRight,
+        onPress: () => router.push('/settings'),
       },
       {
         title: '联系开发者',
         icon: <Feather name="message-circle" size={18} color="black" />,
         subTitle: '',
         iconAfter: ChevronRight,
+        onPress: () => router.push('/settings'),
       },
     ],
     [
@@ -55,6 +60,7 @@ export default function Profile() {
         ),
         subTitle: '',
         iconAfter: <></>,
+        onPress: () => setOpen(true),
       },
     ],
   ]
@@ -128,7 +134,7 @@ export default function Profile() {
                             title={item.title}
                             subTitle={item.subTitle}
                             iconAfter={item.iconAfter}
-                            onPress={() => router.push('/settings')}
+                            onPress={item.onPress}
                           />
                         </YGroup.Item>
                       )
@@ -142,6 +148,13 @@ export default function Profile() {
 
         </ScrollView>
       </YStack >
+
+      <ThemeSheet
+        open={open}
+        setOpen={setOpen}
+        position={position}
+        setPosition={setPosition}
+      />
 
     </>
 

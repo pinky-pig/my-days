@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Link, Tabs } from 'expo-router'
 import { Pressable, useColorScheme } from 'react-native'
-
+import { Ionicons } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
 
 /**
@@ -11,7 +11,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
   color: string
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />
+  return <FontAwesome size={28} {...props} />
 }
 
 export default function TabLayout() {
@@ -25,8 +25,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: '',
-          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+          tabBarLabel: () => null,
+          tabBarIcon: ({ color }) => <Ionicons name="ios-heart-circle" size={28} color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -46,7 +46,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: '',
+          tabBarLabel: () => null,
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           headerShown: false,
         }}

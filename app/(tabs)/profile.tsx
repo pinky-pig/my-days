@@ -1,40 +1,63 @@
 import { Feather } from '@expo/vector-icons'
 import { ChevronRight } from '@tamagui/lucide-icons'
+import { Link, useRouter } from 'expo-router'
 import { Text, View, useColorScheme, useWindowDimensions } from 'react-native'
 import { Avatar, ListItem, ScrollView, Separator, YGroup, YStack } from 'tamagui'
 import tw from 'twrnc'
 import Colors from '~/constants/Colors'
 
-const profileItem = [
-  [
-    {
-      title: '设置',
-      icon: <Feather name="settings" size={18} color="black" />,
-      subTitle: '',
-    },
-    {
-      title: '使用方法',
-      icon: <Feather name="book-open" size={18} color="black" />,
-      subTitle: '',
-    },
-  ],
-  [
-    {
-      title: '分享给好友',
-      icon: <Feather name="airplay" size={18} color="black" />,
-      subTitle: '截图分享',
-    },
-    {
-      title: '联系开发者',
-      icon: <Feather name="message-circle" size={18} color="black" />,
-      subTitle: '',
-    },
-  ],
-]
-
 export default function Profile() {
   const { width, height } = useWindowDimensions()
   const colorScheme = useColorScheme()
+  const router = useRouter()
+
+  const profileItem = [
+    [
+      {
+        title: '基础设置',
+        icon: <Feather name="settings" size={18} color="black" />,
+        subTitle: '',
+        iconAfter: ChevronRight,
+        link: (
+          <Link href="/modal" asChild>
+            { }
+          </Link>
+        ),
+      },
+      {
+        title: '使用方法',
+        icon: <Feather name="book-open" size={18} color="black" />,
+        subTitle: '',
+        iconAfter: ChevronRight,
+      },
+    ],
+    [
+      {
+        title: '分享给好友',
+        icon: <Feather name="airplay" size={18} color="black" />,
+        subTitle: '截图分享',
+        iconAfter: ChevronRight,
+      },
+      {
+        title: '联系开发者',
+        icon: <Feather name="message-circle" size={18} color="black" />,
+        subTitle: '',
+        iconAfter: ChevronRight,
+      },
+    ],
+    [
+      {
+        title: '主题颜色',
+        icon: (
+          colorScheme === 'dark'
+            ? <Feather name="sun" size={18} color="black" />
+            : <Feather name="moon" size={18} color="black" />
+        ),
+        subTitle: '',
+        iconAfter: <></>,
+      },
+    ],
+  ]
 
   return (
     <>
@@ -104,7 +127,8 @@ export default function Profile() {
                             icon={item.icon}
                             title={item.title}
                             subTitle={item.subTitle}
-                            iconAfter={ChevronRight}
+                            iconAfter={item.iconAfter}
+                            onPress={() => router.push('/settings')}
                           />
                         </YGroup.Item>
                       )

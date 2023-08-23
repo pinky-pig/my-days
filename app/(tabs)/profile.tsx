@@ -86,7 +86,9 @@ export default function Profile() {
           >
             <Avatar.Image
               accessibilityLabel="Cam"
-              src="https://images.unsplash.com/photo-1548142813-c348350df52b?&w=150&h=150&dpr=2&q=80"
+              resizeMode='cover'
+              src={require('~/assets/images/logo.png')}
+              style={tw`w-full h-full`}
             />
             <Avatar.Fallback backgroundColor="$blue10" />
           </Avatar>

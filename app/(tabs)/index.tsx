@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import {
-  Button,
-} from 'tamagui'
+import { Button } from 'tamagui'
 import { useRouter } from 'expo-router'
 import EditScreenInfo from '../../components/EditScreenInfo'
 import { Text, View } from '../../components/Themed'

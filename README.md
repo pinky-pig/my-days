@@ -454,3 +454,22 @@ function RootLayoutNav() {
 
 
 接下来就可以在项目中引入使用了。当然别忘了清除缓存重启 `npm run clear`
+
+这里没有设置 web ，因为 web 端的 tamagui 还未稳定，所以在 web 预览的时候会提示 tamagui 的报错。
+如果需要在 web 端，需要引入另外的依赖，并且设置 TAMAGUI_TARGET 为 web ，这里是 native。
+
+### 调试
+
+
+warn、alert、Expo Tools、chrome
+
+
+> https://docs.expo.dev/debugging/tools/
+
+推荐直接 chrome debugger
+
+要么在 vscode 中调试，下载 Expo Tools 插件。启动项目，打开需要断点调试的文件，运行插件。
+
+ctrl + shift + p  
+
+Expo: Debug...

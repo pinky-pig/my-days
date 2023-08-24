@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { useColorScheme } from 'react-native'
-import { Label, Separator, Sheet, Switch, XStack, YGroup } from 'tamagui'
+import { Label, Separator, Sheet, Switch, XStack, YGroup, useForceUpdate } from 'tamagui'
 import Colors from '~/constants/Colors'
+import { useTheme } from '~/context/ThemeContext'
 
 export function ThemeSheet(
   {
@@ -18,7 +20,30 @@ export function ThemeSheet(
     children?: React.ReactNode
   },
 ) {
+  // 保存 colorMode 主题，这里暂时设置为 light 和 dark
+  // 如果是跟随设备，那么就设备优先
+  // 如果不跟随设备，那么就是 colorMode 主题
+
+  const { themeName, updateTheme } = useTheme()!
+
+  // const toggleTheme = () => {
+  //   const newTheme = themeName === 'paper' ? 'dark' : 'paper'
+  //   updateTheme(newTheme)
+  // }
+
   const colorScheme = useColorScheme()
+
+  const [colorMode, setColorMode] = useState('light')
+  const [isFellowDeviceColorScheme, setIsFellowDeviceColorScheme] = useState(true)
+
+  function onFellowDeviceCheckedChange(value: boolean) {
+    setIsFellowDeviceColorScheme(!isFellowDeviceColorScheme)
+    // console.log(111)
+    // updateTheme('paper')
+    // console.log(themeName)
+  }
+
+  const update = useForceUpdate()
 
   return (
     <>
@@ -115,6 +140,8 @@ export function ThemeSheet(
                   marginLeft="auto"
                   id={`switch-${'$4'.toString().slice(0)}`}
                   size="$4"
+                  checked={isFellowDeviceColorScheme}
+                  onCheckedChange={onFellowDeviceCheckedChange}
                 >
                   <Switch.Thumb animation="quick" />
                 </Switch>

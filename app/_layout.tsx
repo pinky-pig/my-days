@@ -1,13 +1,14 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { Suspense, useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 
 import { TamaguiProvider, Text, Theme } from 'tamagui'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import config from '../tamagui.config'
 import { MySafeAreaView } from '~/components/MySafeAreaView'
+import { ThemeContextProvider } from '~/context/ThemeContext'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,21 +50,25 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
+  // const { themeName, updateTheme } = useTheme()!
 
   return (
     <TamaguiProvider config={config}>
       <Suspense fallback={<Text>Loading...</Text>}>
-        <Theme name={colorScheme}>
 
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <MySafeAreaView>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-              </Stack>
-            </MySafeAreaView>
-          </ThemeProvider>
-        </Theme>
+        <ThemeContextProvider>
+          <Theme name={'paper'}>
+
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <MySafeAreaView>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+                </Stack>
+              </MySafeAreaView>
+            </ThemeProvider>
+          </Theme>
+        </ThemeContextProvider>
       </Suspense>
     </TamaguiProvider>
   )

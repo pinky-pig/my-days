@@ -2,8 +2,8 @@ import { Feather } from '@expo/vector-icons'
 import { ChevronRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Text, View, useColorScheme, useWindowDimensions } from 'react-native'
-import { Avatar, ListItem, ScrollView, Separator, YGroup, YStack } from 'tamagui'
+import { useColorScheme } from 'react-native'
+import { Avatar, ListItem, ScrollView, Separator, Text, YGroup, YStack, useWindowDimensions } from 'tamagui'
 import tw from 'twrnc'
 import { ContactUsDialog } from '~/components/Profile/ContactUsDialog'
 import { ThemeSheet } from '~/components/Profile/ThemeSheet'
@@ -70,16 +70,15 @@ export default function Profile() {
   return (
     <>
       <YStack
-        justifyContent='center'
         alignContent='center'
         height={height}
       >
 
-        <View
-          style={[
-            { backgroundColor: colorScheme === 'dark' ? Colors.dark.background : Colors.light.background },
-            tw`flex flex-col justify-center items-center pt-4 pb-4`,
-          ]}
+        <YStack
+          alignContent='center'
+          alignItems='center'
+          backgroundColor={colorScheme === 'dark' ? Colors.dark.background : Colors.light.background}
+          style={tw`pt-4 pb-4`}
         >
           <Avatar
             circular
@@ -98,7 +97,7 @@ export default function Profile() {
           <Text style={tw`mt-2`}>
             Arvin
           </Text>
-        </View>
+        </YStack>
 
         <ScrollView
           // onScroll={handleScroll}

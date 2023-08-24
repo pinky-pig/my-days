@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Text, View, useColorScheme, useWindowDimensions } from 'react-native'
 import { Avatar, ListItem, ScrollView, Separator, YGroup, YStack } from 'tamagui'
 import tw from 'twrnc'
+import { ContactUsDialog } from '~/components/Profile/ContactUsDialog'
 import { ThemeSheet } from '~/components/Profile/ThemeSheet'
 
 import Colors from '~/constants/Colors'
@@ -15,7 +16,8 @@ export default function Profile() {
   const router = useRouter()
 
   const [position, setPosition] = useState(0)
-  const [open, setOpen] = useState(false)
+  const [openThemeSheet, setOpenThemeSheet] = useState(false)
+  const [openContactUsDialog, setOpenContactUsDialog] = useState(false)
 
   const profileItem = [
     [
@@ -47,7 +49,7 @@ export default function Profile() {
         icon: <Feather name="message-circle" size={18} color="black" />,
         subTitle: '',
         iconAfter: ChevronRight,
-        onPress: () => router.push('/settings'),
+        onPress: () => setOpenContactUsDialog(true),
       },
     ],
     [
@@ -60,7 +62,7 @@ export default function Profile() {
         ),
         subTitle: '',
         iconAfter: <></>,
-        onPress: () => setOpen(true),
+        onPress: () => setOpenThemeSheet(true),
       },
     ],
   ]
@@ -152,10 +154,15 @@ export default function Profile() {
       </YStack >
 
       <ThemeSheet
-        open={open}
-        setOpen={setOpen}
+        open={openThemeSheet}
+        setOpen={setOpenThemeSheet}
         position={position}
         setPosition={setPosition}
+      />
+
+      <ContactUsDialog
+        open={openContactUsDialog}
+        setOpen={setOpenContactUsDialog}
       />
 
     </>

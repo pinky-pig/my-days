@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { Button, useColorScheme } from 'react-native'
-import { Label, Separator, Sheet, Switch, XStack, YGroup, useForceUpdate } from 'tamagui'
+import { useColorScheme } from 'react-native'
+import { Label, Separator, Sheet, Switch, XStack, YGroup } from 'tamagui'
 import { useDispatch, useSelector } from 'react-redux'
 import Colors from '~/constants/Colors'
-import { deposit, withdraw } from '~/store/reducers'
+import { setFellowDeviceColorScheme, setThemeName } from '~/store/reducers'
+import type { IReducer } from '~/store'
 
 export function ThemeSheet(
   {
@@ -27,20 +27,34 @@ export function ThemeSheet(
 
   const colorScheme = useColorScheme()
 
-  const [colorMode, setColorMode] = useState('light')
-  const [isFellowDeviceColorScheme, setIsFellowDeviceColorScheme] = useState(true)
+  const dispatch = useDispatch()
+  const themeName = useSelector((state: IReducer) => state.balance.themeName)
+  const isFellowDeviceColorScheme = useSelector((state: IReducer) => state.balance.isFellowDeviceColorScheme)
+  const isDark = themeName === 'dark'
 
+  function onIsDarkChange(value: boolean) {
+    if (value) {
+      // 夜间模式
+      dispatch(setThemeName('dark'))
+    }
+    else {
+      // 亮色模式
+      dispatch(setThemeName('light'))
+    }
+  }
   function onFellowDeviceCheckedChange(value: boolean) {
-    setIsFellowDeviceColorScheme(!isFellowDeviceColorScheme)
-    // console.log(111)
-    // updateTheme('paper')
-    // console.log(themeName)
+    if (value) {
+      // if value true 说明要跟随设备，那么获取设备的 mode 然后掉用 setThemeName
+      dispatch(setFellowDeviceColorScheme(value))
+      dispatch(setThemeName(colorScheme))
+    }
+    else {
+      // if false 那么就获取当前
+      dispatch(setFellowDeviceColorScheme(value))
+    }
   }
 
-  const update = useForceUpdate()
-
-  const dispatch = useDispatch()
-  const balance = useSelector(state => state.balance.value)
+  // const update = useForceUpdate()
 
   return (
     <>
@@ -90,36 +104,6 @@ export function ThemeSheet(
           <YGroup alignSelf="center" bordered width={'90%'} size="$4">
 
             <YGroup.Item >
-              <XStack
-                width={'100%'}
-                alignItems="center"
-                paddingLeft="$4"
-                paddingRight="$4"
-              >
-                <Label
-                  paddingRight="$0"
-                  minWidth={90}
-                  justifyContent="flex-end"
-                  size="$4"
-                  htmlFor={`switch-${'$4'.toString().slice(1)}`}
-                >
-                  Current Balance: {balance}
-                </Label>
-
-                <Button
-                  title="Deposit 10$"
-                  onPress={() => {
-                    dispatch(deposit(10))
-                  }}
-                />
-
-                <Button
-                  title="Withdraw 10$"
-                  onPress={() => {
-                    dispatch(withdraw(10))
-                  }}
-                />
-              </XStack>
 
               <XStack
                 width={'100%'}
@@ -141,6 +125,8 @@ export function ThemeSheet(
                   marginLeft="auto"
                   id={`switch-${'$4'.toString().slice(1)}`}
                   size="$4"
+                  checked={isDark}
+                  onCheckedChange={onIsDarkChange}
                 >
                   <Switch.Thumb animation="quick" />
                 </Switch>

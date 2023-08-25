@@ -8,9 +8,16 @@ const persistConfig = {
   version: 1,
   storage: AsyncStorage,
 }
-const rootReducer = combineReducers({
+
+const reducers = {
   balance: balanceReducer,
-})
+}
+
+export type IReducer = {
+  [key in keyof typeof reducers]: ReturnType <typeof reducers[key]>
+}
+
+const rootReducer = combineReducers(reducers)
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({

@@ -7,11 +7,12 @@ import { useColorScheme } from 'react-native'
 import { TamaguiProvider, Text, Theme } from 'tamagui'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { persistStore } from 'redux-persist'
-import { Provider as ReduxProvider } from 'react-redux'
+import { Provider as ReduxProvider, useSelector } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import config from '../tamagui.config'
 import { MySafeAreaView } from '~/components/MySafeAreaView'
 
+import type { IReducer } from '~/store'
 import { store } from '~/store'
 
 const persistor = persistStore(store)
@@ -51,31 +52,34 @@ export default function RootLayout() {
   if (!loaded)
     return null
 
-  return <RootLayoutNav />
+  return (
+    <ReduxProvider store={store}>
+      <RootLayoutNav />
+    </ReduxProvider>
+  )
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
 
+  const themeName = useSelector((state: IReducer) => state.balance.themeName)
   return (
     <TamaguiProvider config={config}>
       <Suspense fallback={<Text>Loading...</Text>}>
-        <ReduxProvider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
 
-              <Theme name={'paper'}>
-                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                  <MySafeAreaView>
-                    <Stack>
-                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-                    </Stack>
-                  </MySafeAreaView>
-                </ThemeProvider>
-              </Theme>
+          <Theme name={themeName}>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <MySafeAreaView>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+                </Stack>
+              </MySafeAreaView>
+            </ThemeProvider>
+          </Theme>
 
-          </PersistGate>
-        </ReduxProvider>
+        </PersistGate>
       </Suspense>
     </TamaguiProvider>
   )

@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useColorScheme } from 'react-native'
+import { Button, useColorScheme } from 'react-native'
 import { Label, Separator, Sheet, Switch, XStack, YGroup, useForceUpdate } from 'tamagui'
+import { useDispatch, useSelector } from 'react-redux'
 import Colors from '~/constants/Colors'
-import { useTheme } from '~/context/ThemeContext'
+import { deposit, withdraw } from '~/store/reducers'
 
 export function ThemeSheet(
   {
@@ -24,13 +25,6 @@ export function ThemeSheet(
   // 如果是跟随设备，那么就设备优先
   // 如果不跟随设备，那么就是 colorMode 主题
 
-  const { themeName, updateTheme } = useTheme()!
-
-  // const toggleTheme = () => {
-  //   const newTheme = themeName === 'paper' ? 'dark' : 'paper'
-  //   updateTheme(newTheme)
-  // }
-
   const colorScheme = useColorScheme()
 
   const [colorMode, setColorMode] = useState('light')
@@ -44,6 +38,9 @@ export function ThemeSheet(
   }
 
   const update = useForceUpdate()
+
+  const dispatch = useDispatch()
+  const balance = useSelector(state => state.balance.value)
 
   return (
     <>
@@ -93,6 +90,37 @@ export function ThemeSheet(
           <YGroup alignSelf="center" bordered width={'90%'} size="$4">
 
             <YGroup.Item >
+              <XStack
+                width={'100%'}
+                alignItems="center"
+                paddingLeft="$4"
+                paddingRight="$4"
+              >
+                <Label
+                  paddingRight="$0"
+                  minWidth={90}
+                  justifyContent="flex-end"
+                  size="$4"
+                  htmlFor={`switch-${'$4'.toString().slice(1)}`}
+                >
+                  Current Balance: {balance}
+                </Label>
+
+                <Button
+                  title="Deposit 10$"
+                  onPress={() => {
+                    dispatch(deposit(10))
+                  }}
+                />
+
+                <Button
+                  title="Withdraw 10$"
+                  onPress={() => {
+                    dispatch(withdraw(10))
+                  }}
+                />
+              </XStack>
+
               <XStack
                 width={'100%'}
                 alignItems="center"

@@ -6,9 +6,15 @@ import { useColorScheme } from 'react-native'
 
 import { TamaguiProvider, Text, Theme } from 'tamagui'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { persistStore } from 'redux-persist'
+import { Provider as ReduxProvider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import config from '../tamagui.config'
 import { MySafeAreaView } from '~/components/MySafeAreaView'
-import { ThemeContextProvider } from '~/context/ThemeContext'
+
+import { store } from '~/store'
+
+const persistor = persistStore(store)
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,25 +56,26 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
-  // const { themeName, updateTheme } = useTheme()!
 
   return (
     <TamaguiProvider config={config}>
       <Suspense fallback={<Text>Loading...</Text>}>
+        <ReduxProvider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
 
-        <ThemeContextProvider>
-          <Theme name={'paper'}>
+              <Theme name={'paper'}>
+                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                  <MySafeAreaView>
+                    <Stack>
+                      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+                    </Stack>
+                  </MySafeAreaView>
+                </ThemeProvider>
+              </Theme>
 
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <MySafeAreaView>
-                <Stack>
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-                </Stack>
-              </MySafeAreaView>
-            </ThemeProvider>
-          </Theme>
-        </ThemeContextProvider>
+          </PersistGate>
+        </ReduxProvider>
       </Suspense>
     </TamaguiProvider>
   )

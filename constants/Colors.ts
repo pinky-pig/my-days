@@ -22,7 +22,6 @@ const Colors: Record<ThemeName, any> = {
     secondColor: '#F5F7FB',
     thirdColor: '#ccc',
   },
-
   dark: {
     text: '#fff',
     background: '#222',
@@ -39,13 +38,73 @@ const Colors: Record<ThemeName, any> = {
     secondColor: '#2B2C30',
     thirdColor: '#666',
   },
-  paper: undefined,
+  paper: {
+    text: '#000',
+    background: '#fff',
+    tint: tintColorLight,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorLight,
+
+    // 自定义的主要颜色
+    color1: '#F5F7FB',
+    color2: '#F5F7FB',
+    color3: '#F5F7FB',
+
+    primaryColor: '#fff',
+    secondColor: '#F5F7FB',
+    thirdColor: '#ccc',
+  },
+  blue: {
+    text: '#000',
+    background: '#fff',
+    tint: tintColorLight,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorLight,
+
+    // 自定义的主要颜色
+    color1: '#F5F7FB',
+    color2: '#F5F7FB',
+    color3: '#F5F7FB',
+
+    primaryColor: '#fff',
+    secondColor: '#F5F7FB',
+    thirdColor: '#ccc',
+  },
+  purple: {
+    text: '#000',
+    background: '#fff',
+    tint: tintColorLight,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorLight,
+
+    // 自定义的主要颜色
+    color1: '#F5F7FB',
+    color2: '#F5F7FB',
+    color3: '#F5F7FB',
+
+    primaryColor: '#fff',
+    secondColor: '#F5F7FB',
+    thirdColor: '#ccc',
+  },
+  pink: {
+    text: '#000',
+    background: '#fff',
+    tint: tintColorLight,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorLight,
+
+    // 自定义的主要颜色
+    color1: '#F5F7FB',
+    color2: '#F5F7FB',
+    color3: '#F5F7FB',
+
+    primaryColor: '#fff',
+    secondColor: '#F5F7FB',
+    thirdColor: '#ccc',
+  },
+  green: undefined,
   orange: undefined,
   yellow: undefined,
-  green: undefined,
-  blue: undefined,
-  purple: undefined,
-  pink: undefined,
   red: undefined,
   orange_ListItem: undefined,
   ListItem: undefined,

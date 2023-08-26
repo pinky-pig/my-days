@@ -49,6 +49,30 @@ const config = createTamagui({
   themes: {
     ...themes,
     // 在这里创建的 theme ，可以在 <Theme name={'paper'}> 中设置
+    purple: {
+      primary: 'rgb(0, 122, 255)',
+      background: 'rgb(242, 242, 242)',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: 'rgb(216, 216, 216)',
+      notification: 'rgb(255, 59, 48)',
+    },
+    blue: {
+      primary: 'rgb(0, 122, 255)',
+      background: 'rgb(242, 242, 242)',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: 'rgb(216, 216, 216)',
+      notification: 'rgb(255, 59, 48)',
+    },
+    pink: {
+      primary: 'rgb(0, 122, 255)',
+      background: 'rgb(242, 242, 242)',
+      card: 'rgb(255, 255, 255)',
+      text: 'rgb(28, 28, 30)',
+      border: 'rgb(216, 216, 216)',
+      notification: 'rgb(255, 59, 48)',
+    },
     paper: {
       primary: 'rgb(0, 122, 255)',
       background: 'rgb(242, 242, 242)',

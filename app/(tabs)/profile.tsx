@@ -119,7 +119,7 @@ export default function Profile() {
                   alignSelf="center"
                   bordered
                   width={width - 40}
-                  size="$6" // border-radius
+                  size="$8" // border-radius
                   separator={<Separator width={0} />}
                 >
 

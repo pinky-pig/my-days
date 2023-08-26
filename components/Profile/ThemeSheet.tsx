@@ -1,11 +1,11 @@
-import { useColorScheme } from 'react-native'
-import { Label, Separator, Sheet, Switch, View, XStack, YGroup, YStack } from 'tamagui'
+import { View, useColorScheme } from 'react-native'
+import { Label, Sheet, Switch, View as TView, XGroup, XStack, YStack } from 'tamagui'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Colors from '~/constants/Colors'
 import { setFellowDeviceColorScheme, setThemeName } from '~/store/reducers'
 import type { IReducer } from '~/store'
-
 import { Superellipse } from '~/components/Superellipse'
 
 export function ThemeSheet(
@@ -28,32 +28,55 @@ export function ThemeSheet(
   // 如果是跟随设备，那么就设备优先
   // 如果不跟随设备，那么就是 colorMode 主题
 
+  type CustomThemeType = 'light' | 'dark' | 'purple' | 'blue' | 'pink' | 'paper'
+  const customThemes: { name: CustomThemeType; coverColor: string }[] = [
+    {
+      name: 'light',
+      coverColor: '#d9d9d9',
+    },
+    {
+      name: 'dark',
+      coverColor: '#222222',
+    },
+    {
+      name: 'purple',
+      coverColor: '#6262CC',
+    },
+    {
+      name: 'blue',
+      coverColor: '#101B2D',
+    },
+    {
+      name: 'pink',
+      coverColor: '#D33F9D',
+    },
+    {
+      name: 'paper',
+      coverColor: '#F0D60A',
+    },
+
+  ]
   const colorScheme = useColorScheme()
 
   const dispatch = useDispatch()
   const themeName = useSelector((state: IReducer) => state.balance.themeName)
   const isFellowDeviceColorScheme = useSelector((state: IReducer) => state.balance.isFellowDeviceColorScheme)
-  const isDark = themeName === 'dark'
 
   useEffect(() => {
     // 1. 如果是跟随设备的话
     if (isFellowDeviceColorScheme)
       dispatch(setThemeName(colorScheme))
-  }, [colorScheme, isFellowDeviceColorScheme])
+  }, [colorScheme, isFellowDeviceColorScheme, themeName])
 
   function onFellowDeviceCheckedChange(value: boolean) {
     // 2. 设置是否跟随设备，然后再 useEffect 中设置
     dispatch(setFellowDeviceColorScheme(value))
   }
 
-  function onIsDarkChange(value: boolean) {
-    // 3. 如果这里是手动设置的话，那么就不跟随设备
+  function handleSetThemeName(item: typeof customThemes[0]) {
     onFellowDeviceCheckedChange(false)
-    // 4. 然后主动设置主题
-    dispatch(setThemeName(value ? 'dark' : 'light'))
+    dispatch(setThemeName(item.name))
   }
-
-  // const update = useForceUpdate()
 
   return (
     <>
@@ -64,9 +87,9 @@ export function ThemeSheet(
         modal={true} // false 就是页面内的 sheet
         open={open}
         onOpenChange={setOpen}
-        snapPoints={[85, 25]} // 这里可以设置高度
+        snapPoints={[85, 50]} // 这里可以设置高度
         defaultPosition={1}
-        // disableDrag // 配合 defaultPosition 的 index，让其高度在 25 ，且不能拖拽
+        disableDrag // 配合 defaultPosition 的 index，让其高度在 25 ，且不能拖拽
         dismissOnSnapToBottom
         // position={position} // snapPoints 上面高度改变的时候
         // onPositionChange={setPosition} // snapPoints 上面高度改变的时候
@@ -100,95 +123,130 @@ export function ThemeSheet(
           borderRadius={30}
         >
 
-          <YGroup alignSelf="center" bordered width={'90%'} size="$4">
+          <XStack
+            width={'100%'}
+            alignContent="space-between"
+            alignItems="center"
+            paddingLeft="$4"
+            paddingRight="$4"
+          >
+            <Label
+              paddingRight="$0"
+              minWidth={90}
+              justifyContent="flex-end"
+              size="$4"
+              htmlFor={`switch-${'$4'.toString().slice(0)}`}
+            >
+              使用设备设置
+            </Label>
+            <Switch
+              marginLeft="auto"
+              id={`switch-${'$4'.toString().slice(0)}`}
+              size="$4"
+              checked={isFellowDeviceColorScheme}
+              onCheckedChange={onFellowDeviceCheckedChange}
+            >
+              <Switch.Thumb animation="quick" />
+            </Switch>
+          </XStack>
 
-            <YGroup.Item >
+          <YStack
+            width={'100%'}
+            paddingLeft="$4"
+            paddingRight="$4"
+          >
 
-              <YStack
-                width={'100%'}
-                alignItems="flex-start"
-                paddingLeft="$4"
-                paddingRight="$4"
-              >
+            <Label
+              paddingRight="$0"
+              minWidth={90}
+              justifyContent="flex-end"
+              marginBottom='$4'
+            >
+              主题模式
+            </Label>
 
-                <Label
-                  paddingRight="$0"
-                  minWidth={90}
-                  justifyContent="flex-end"
-                  size="$4"
-                  htmlFor={`switch-${'$4'.toString().slice(1)}`}
-                >
-                  主题模式
-                </Label>
+            <XGroup
+              alignSelf="center"
+              bordered
+              flexDirection='row'
+              justifyContent='space-between'
+              flexWrap="wrap"
+              width={'100%'}
+              size="$8"
+              paddingLeft="$4"
+              paddingRight="$4"
+              paddingTop="$5"
+              paddingBottom="$5"
+              gap={20}
+            >
 
-                <XStack
-                  width={'100%'}
-                  alignItems="center"
-                  paddingLeft="$4"
-                  paddingRight="$4"
-                  gap={10}
-                >
+              {
+                customThemes.map((item) => {
+                  return (
+                    <XGroup.Item
+                      key={item.name}
+                    >
+                      <TView
+                        style={{
+                          width: 60,
+                          height: 60,
+                          marginLeft: 10,
+                          marginRight: 10,
+                          position: 'relative',
+                        }}
+                        onPress={() => handleSetThemeName(item)}
+                      >
+                        <Superellipse fill={item.coverColor} stroke={item.coverColor} />
 
-                  <View
-                    width={100}
-                    height={100}
-                  >
+                        {/* 选中显示 check-circle  */}
+                        {/* 未选中显示 checkbox-blank-circle-outline  */}
+                        {
+                          themeName === item.name
+                            ? (
+                              <View
+                                style={{
+                                  position: 'absolute',
+                                  right: 0,
+                                  bottom: 0,
+                                  backgroundColor: 'white',
+                                  borderRadius: 10,
+                                }}
+                              >
+                                <MaterialCommunityIcons
+                                  name="check-circle"
+                                  size={16}
+                                  color="black"
+                                />
+                              </View>
+                              )
+                            : (
+                              <View
+                                style={{
+                                  position: 'absolute',
+                                  right: 0,
+                                  bottom: 0,
+                                  backgroundColor: 'white',
+                                  borderRadius: 10,
+                                }}
+                              >
+                                <MaterialCommunityIcons
+                                  name="checkbox-blank-circle-outline"
+                                  size={16}
+                                  color="black"
+                                />
+                              </View>
+                              )
+                        }
 
-                    <Superellipse fill='#6262CC' stroke='#6262CC' />
-                  </View>
+                      </TView>
+                    </XGroup.Item >
+                  )
+                })
+              }
 
-                </XStack>
-                {/* <Label
-                  paddingRight="$0"
-                  minWidth={90}
-                  justifyContent="flex-end"
-                  size="$4"
-                  htmlFor={`switch-${'$4'.toString().slice(1)}`}
-                >
-                  夜间模式
-                </Label>
+            </XGroup>
+          </YStack>
 
-                <Switch
-                  marginLeft="auto"
-                  id={`switch-${'$4'.toString().slice(1)}`}
-                  size="$4"
-                  checked={isDark}
-                  onCheckedChange={onIsDarkChange}
-                >
-                  <Switch.Thumb animation="quick" />
-                </Switch> */}
-              </YStack>
-
-              <XStack
-                width={'100%'}
-                alignContent="space-between"
-                alignItems="center"
-                space="$4"
-                paddingLeft="$4"
-                paddingRight="$4"
-              >
-                <Label
-                  paddingRight="$0"
-                  minWidth={90}
-                  justifyContent="flex-end"
-                  size="$4"
-                  htmlFor={`switch-${'$4'.toString().slice(0)}`}
-                >
-                  使用设备设置
-                </Label>
-                <Separator minHeight={20} vertical />
-                <Switch
-                  marginLeft="auto"
-                  id={`switch-${'$4'.toString().slice(0)}`}
-                  size="$4"
-                  checked={isFellowDeviceColorScheme}
-                  onCheckedChange={onFellowDeviceCheckedChange}
-                >
-                  <Switch.Thumb animation="quick" />
-                </Switch>
-              </XStack>
-            </YGroup.Item>
-          </YGroup>
           {children}
         </Sheet.Frame>
       </Sheet>

@@ -20,12 +20,6 @@ export const balanceSlice = createSlice({
   initialState, // 这个是状态的初始值
   reducers: {
     // 在这里定义 reducer function
-    deposit: (state, action) => {
-      state.value += action.payload
-    },
-    withdraw: (state, action) => {
-      state.value = action.payload
-    },
     setThemeName: (state, action) => {
       state.themeName = action.payload
     },
@@ -36,7 +30,7 @@ export const balanceSlice = createSlice({
 })
 
 // 给每一个 reducer function 创建 Action 并导出
-export const { deposit, withdraw, setThemeName, setFellowDeviceColorScheme } = balanceSlice.actions
+export const { setThemeName, setFellowDeviceColorScheme } = balanceSlice.actions
 
 // 这里默认导出为了能在 store 中注册
 export default balanceSlice.reducer

@@ -1,8 +1,10 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Link, Tabs } from 'expo-router'
-import { Pressable, useColorScheme } from 'react-native'
+import { Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import { useSelector } from 'react-redux'
 import Colors from '../../constants/Colors'
+import type { IReducer } from '~/store'
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -15,12 +17,17 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme()
+  // 全局的样式管理
+  // 1. 状态通过 redux 管理
+  // 2. RN 组件通过自定义 Colors 管理
+  // 3. Tamagui 组件通过其 Theme 管理
+
+  const themeName = useSelector((state: IReducer) => state.balance.themeName)
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[themeName ?? 'light'].tint,
       }}>
       <Tabs.Screen
         name="index"
@@ -34,7 +41,7 @@ export default function TabLayout() {
                   <FontAwesome
                     name="info-circle"
                     size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
+                    color={Colors[themeName ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}

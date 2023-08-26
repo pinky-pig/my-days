@@ -1,6 +1,7 @@
 import { useColorScheme } from 'react-native'
 import { Label, Separator, Sheet, Switch, XStack, YGroup } from 'tamagui'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import Colors from '~/constants/Colors'
 import { setFellowDeviceColorScheme, setThemeName } from '~/store/reducers'
 import type { IReducer } from '~/store'
@@ -32,26 +33,22 @@ export function ThemeSheet(
   const isFellowDeviceColorScheme = useSelector((state: IReducer) => state.balance.isFellowDeviceColorScheme)
   const isDark = themeName === 'dark'
 
-  function onIsDarkChange(value: boolean) {
-    if (value) {
-      // 夜间模式
-      dispatch(setThemeName('dark'))
-    }
-    else {
-      // 亮色模式
-      dispatch(setThemeName('light'))
-    }
-  }
-  function onFellowDeviceCheckedChange(value: boolean) {
-    if (value) {
-      // if value true 说明要跟随设备，那么获取设备的 mode 然后掉用 setThemeName
-      dispatch(setFellowDeviceColorScheme(value))
+  useEffect(() => {
+    // 1. 如果是跟随设备的话
+    if (isFellowDeviceColorScheme)
       dispatch(setThemeName(colorScheme))
-    }
-    else {
-      // if false 那么就获取当前
-      dispatch(setFellowDeviceColorScheme(value))
-    }
+  }, [colorScheme, isFellowDeviceColorScheme])
+
+  function onFellowDeviceCheckedChange(value: boolean) {
+    // 2. 设置是否跟随设备，然后再 useEffect 中设置
+    dispatch(setFellowDeviceColorScheme(value))
+  }
+
+  function onIsDarkChange(value: boolean) {
+    // 3. 如果这里是手动设置的话，那么就不跟随设备
+    onFellowDeviceCheckedChange(false)
+    // 4. 然后主动设置主题
+    dispatch(setThemeName(value ? 'dark' : 'light'))
   }
 
   // const update = useForceUpdate()

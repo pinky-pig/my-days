@@ -57,8 +57,6 @@ const config = createTamagui({
       border: 'rgb(216, 216, 216)',
       notification: 'rgb(255, 59, 48)',
     },
-    // dark,
-    // light,
   },
   tokens,
   media: createMedia({

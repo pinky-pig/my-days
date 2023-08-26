@@ -2,7 +2,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { Suspense, useEffect } from 'react'
-import { useColorScheme } from 'react-native'
 
 import { TamaguiProvider, Text, Theme } from 'tamagui'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
@@ -60,16 +59,18 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme()
-
   const themeName = useSelector((state: IReducer) => state.balance.themeName)
+
   return (
     <TamaguiProvider config={config}>
       <Suspense fallback={<Text>Loading...</Text>}>
         <PersistGate loading={null} persistor={persistor}>
 
+          {/* 这个是 tamagui 的组件的主题 */}
           <Theme name={themeName}>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+
+            {/* 这个是 rn 的组件的主题 */}
+            <ThemeProvider value={themeName === 'dark' ? DarkTheme : DefaultTheme}>
               <MySafeAreaView>
                 <Stack>
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

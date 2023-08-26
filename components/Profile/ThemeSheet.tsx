@@ -1,10 +1,12 @@
 import { useColorScheme } from 'react-native'
-import { Label, Separator, Sheet, Switch, XStack, YGroup } from 'tamagui'
+import { Label, Separator, Sheet, Switch, View, XStack, YGroup, YStack } from 'tamagui'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import Colors from '~/constants/Colors'
 import { setFellowDeviceColorScheme, setThemeName } from '~/store/reducers'
 import type { IReducer } from '~/store'
+
+import { Superellipse } from '~/components/Superellipse'
 
 export function ThemeSheet(
   {
@@ -64,7 +66,7 @@ export function ThemeSheet(
         onOpenChange={setOpen}
         snapPoints={[85, 25]} // 这里可以设置高度
         defaultPosition={1}
-        disableDrag // 配合 defaultPosition 的 index，让其高度在 25 ，且不能拖拽
+        // disableDrag // 配合 defaultPosition 的 index，让其高度在 25 ，且不能拖拽
         dismissOnSnapToBottom
         // position={position} // snapPoints 上面高度改变的时候
         // onPositionChange={setPosition} // snapPoints 上面高度改变的时候
@@ -102,13 +104,41 @@ export function ThemeSheet(
 
             <YGroup.Item >
 
-              <XStack
+              <YStack
                 width={'100%'}
-                alignItems="center"
+                alignItems="flex-start"
                 paddingLeft="$4"
                 paddingRight="$4"
               >
+
                 <Label
+                  paddingRight="$0"
+                  minWidth={90}
+                  justifyContent="flex-end"
+                  size="$4"
+                  htmlFor={`switch-${'$4'.toString().slice(1)}`}
+                >
+                  主题模式
+                </Label>
+
+                <XStack
+                  width={'100%'}
+                  alignItems="center"
+                  paddingLeft="$4"
+                  paddingRight="$4"
+                  gap={10}
+                >
+
+                  <View
+                    width={100}
+                    height={100}
+                  >
+
+                    <Superellipse fill='#6262CC' stroke='#6262CC' />
+                  </View>
+
+                </XStack>
+                {/* <Label
                   paddingRight="$0"
                   minWidth={90}
                   justifyContent="flex-end"
@@ -126,8 +156,8 @@ export function ThemeSheet(
                   onCheckedChange={onIsDarkChange}
                 >
                   <Switch.Thumb animation="quick" />
-                </Switch>
-              </XStack>
+                </Switch> */}
+              </YStack>
 
               <XStack
                 width={'100%'}

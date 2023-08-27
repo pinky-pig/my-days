@@ -3,17 +3,16 @@ import { ChevronRight } from '@tamagui/lucide-icons'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { useColorScheme } from 'react-native'
-import { Avatar, ListItem, ScrollView, Separator, Text, YGroup, YStack, useWindowDimensions } from 'tamagui'
+import { Avatar, ListItem, ScrollView, Separator, Text, YGroup, YStack, useTheme, useWindowDimensions } from 'tamagui'
 import tw from 'twrnc'
 import { ContactUsDialog } from '~/components/Profile/ContactUsDialog'
 import { ThemeSheet } from '~/components/Profile/ThemeSheet'
-
-import Colors from '~/constants/Colors'
 
 export default function Profile() {
   const { width, height } = useWindowDimensions()
   const colorScheme = useColorScheme()
   const router = useRouter()
+  const tamaguiTheme = useTheme() as any
 
   const [position, setPosition] = useState(0)
   const [openThemeSheet, setOpenThemeSheet] = useState(false)
@@ -23,14 +22,14 @@ export default function Profile() {
     [
       {
         title: '基础设置',
-        icon: <Feather name="settings" size={18} color="black" />,
+        icon: <Feather name="settings" size={18} color={tamaguiTheme.color?.val} />,
         subTitle: '',
         iconAfter: ChevronRight,
         onPress: () => router.push('/settings'),
       },
       {
         title: '使用方法',
-        icon: <Feather name="book-open" size={18} color="black" />,
+        icon: <Feather name="book-open" size={18} color={tamaguiTheme.color?.val} />,
         subTitle: '',
         iconAfter: ChevronRight,
         onPress: () => router.push('/settings'),
@@ -39,14 +38,14 @@ export default function Profile() {
     [
       {
         title: '分享给好友',
-        icon: <Feather name="airplay" size={18} color="black" />,
+        icon: <Feather name="airplay" size={18} color={tamaguiTheme.color?.val} />,
         subTitle: '截图分享',
         iconAfter: ChevronRight,
         onPress: () => router.push('/settings'),
       },
       {
         title: '联系开发者',
-        icon: <Feather name="message-circle" size={18} color="black" />,
+        icon: <Feather name="message-circle" size={18} color={tamaguiTheme.color?.val} />,
         subTitle: '',
         iconAfter: ChevronRight,
         onPress: () => setOpenContactUsDialog(true),
@@ -55,11 +54,7 @@ export default function Profile() {
     [
       {
         title: '主题颜色',
-        icon: (
-          colorScheme === 'dark'
-            ? <Feather name="sun" size={18} color="black" />
-            : <Feather name="moon" size={18} color="black" />
-        ),
+        icon: <Feather name="moon" size={18} color={tamaguiTheme.color?.val} />,
         subTitle: '',
         iconAfter: <></>,
         onPress: () => setOpenThemeSheet(true),
@@ -77,7 +72,7 @@ export default function Profile() {
         <YStack
           alignContent='center'
           alignItems='center'
-          backgroundColor={colorScheme === 'dark' ? Colors.dark.background : Colors.light.background}
+          backgroundColor="$background"
           style={tw`pt-4 pb-4`}
         >
           <Avatar
@@ -100,14 +95,9 @@ export default function Profile() {
         </YStack>
 
         <ScrollView
-          // onScroll={handleScroll}
           scrollEventThrottle={16}
-          style={[
-            {
-              backgroundColor: colorScheme === 'dark' ? Colors.dark.secondColor : Colors.light.secondColor,
-            },
-            tw`flex-1 `, // 这里设置的是盒子
-          ]}
+          backgroundColor="$background"
+          flex={1}
           contentContainerStyle={tw`flex flex-col gap-4 pt-4`} // 这里还有个子盒子
         >
 

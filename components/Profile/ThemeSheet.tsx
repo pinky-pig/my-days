@@ -28,7 +28,7 @@ export function ThemeSheet(
   // 如果是跟随设备，那么就设备优先
   // 如果不跟随设备，那么就是 colorMode 主题
 
-  type CustomThemeType = 'light' | 'dark' | 'purple' | 'blue' | 'pink' | 'paper'
+  type CustomThemeType = 'light' | 'dark' | 'purple' | 'blue' | 'pink' | 'yellow'
   const customThemes: { name: CustomThemeType; coverColor: string }[] = [
     {
       name: 'light',
@@ -51,7 +51,7 @@ export function ThemeSheet(
       coverColor: '#D33F9D',
     },
     {
-      name: 'paper',
+      name: 'yellow',
       coverColor: '#F0D60A',
     },
 

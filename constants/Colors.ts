@@ -38,7 +38,7 @@ const Colors: Record<ThemeName, any> = {
     secondColor: '#2B2C30',
     thirdColor: '#666',
   },
-  paper: {
+  yellow: {
     text: '#000',
     background: '#fff',
     tint: tintColorLight,
@@ -104,7 +104,6 @@ const Colors: Record<ThemeName, any> = {
   },
   green: undefined,
   orange: undefined,
-  yellow: undefined,
   red: undefined,
   orange_ListItem: undefined,
   ListItem: undefined,

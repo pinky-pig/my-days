@@ -48,7 +48,7 @@ const config = createTamagui({
   },
   themes: {
     ...themes,
-    // 在这里创建的 theme ，可以在 <Theme name={'paper'}> 中设置
+    // 在这里创建的 theme ，可以在 <Theme name={'gary'}> 中设置
     purple: {
       primary: 'rgb(0, 122, 255)',
       background: 'rgb(242, 242, 242)',
@@ -73,7 +73,7 @@ const config = createTamagui({
       border: 'rgb(216, 216, 216)',
       notification: 'rgb(255, 59, 48)',
     },
-    paper: {
+    yellow: {
       primary: 'rgb(0, 122, 255)',
       background: 'rgb(242, 242, 242)',
       card: 'rgb(255, 255, 255)',

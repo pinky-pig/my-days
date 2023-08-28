@@ -509,3 +509,10 @@ EAS 运行打包的时候，其实能在 Expo 网站能看的到 Build Log 。
 5. 然后还需要引入 expo-dev-client 依赖。
 6. 然后就可以 EAS 运行调试了 `npx expo start --dev-client`。
 
+```bash
+npm install -g eas-cli
+```
+
+```bash
+eas build --profile development-simulator --platform ios
+```

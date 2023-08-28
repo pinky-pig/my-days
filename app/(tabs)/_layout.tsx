@@ -3,6 +3,7 @@ import { Link, Tabs } from 'expo-router'
 import { Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
+import { useTheme } from 'tamagui'
 import Colors from '../../constants/Colors'
 import type { IReducer } from '~/store'
 
@@ -23,11 +24,15 @@ export default function TabLayout() {
   // 3. Tamagui 组件通过其 Theme 管理
 
   const themeName = useSelector((state: IReducer) => state.balance.themeName)
+  const tamaguiTheme = useTheme() as any
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[themeName ?? 'light'].tint,
+        tabBarActiveTintColor: tamaguiTheme.color.val,
+        tabBarStyle: {
+          backgroundColor: tamaguiTheme.background.val,
+        },
       }}>
       <Tabs.Screen
         name="index"

@@ -30,8 +30,8 @@ export default function TabOneScreen() {
       <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <Button onPress={() => router.push('/profile')}>
-        Go to user page
+      <Button onPress={() => router.push('/pic-map')}>
+        Go to Mapbox
       </Button>
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>

@@ -4,9 +4,9 @@ import { Stack, useRouter, useSearchParams } from 'expo-router'
 import { Button, H3, H6, View, XStack, YStack } from 'tamagui'
 import tw from 'twrnc'
 
-import Mapbox from '@rnmapbox/maps'
+// import Mapbox from '@rnmapbox/maps'
 
-Mapbox.setAccessToken('pk.eyJ1IjoicGlua3ktcGlnIiwiYSI6ImNsZnJuMTQxazAwMmUzb256dW9teG8wa2kifQ.H_xJVll_ljzZ8JgWrqQpZA')
+// Mapbox.setAccessToken('pk.eyJ1IjoicGlua3ktcGlnIiwiYSI6ImNsZnJuMTQxazAwMmUzb256dW9teG8wa2kifQ.H_xJVll_ljzZ8JgWrqQpZA')
 
 export default function Settings() {
   const router = useRouter()

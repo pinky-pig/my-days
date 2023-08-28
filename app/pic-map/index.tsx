@@ -1,7 +1,13 @@
+import 'expo-dev-client'
 import { ArrowLeft } from '@tamagui/lucide-icons'
 import { Stack, useRouter, useSearchParams } from 'expo-router'
-import { Button, H3, H6, View, XStack, YStack } from 'tamagui'
+import { Button, H3, H6, XStack, YStack } from 'tamagui'
 import tw from 'twrnc'
+import Mapbox from '@rnmapbox/maps'
+import { View } from 'react-native'
+
+Mapbox.setWellKnownTileServer('Mapbox')
+Mapbox.setAccessToken('pk.eyJ1IjoicGlua3ktcGlnIiwiYSI6ImNsZnJuMTQxazAwMmUzb256dW9teG8wa2kifQ.H_xJVll_ljzZ8JgWrqQpZA')
 
 export default function Settings() {
   const router = useRouter()
@@ -25,7 +31,7 @@ export default function Settings() {
         style={tw`w-full h-full `}
         backgroundColor='$backgroundStrong'
       >
-
+        {/* header */}
         <XStack
           alignSelf="center"
           flexDirection='row'
@@ -47,12 +53,18 @@ export default function Settings() {
 
         </XStack>
 
+        {/* map */}
+        <View style={{
+          height: 300,
+          width: 300,
+        }}>
+          <Mapbox.MapView style={{
+            height: 300,
+            width: 300,
+          }} />
+        </View>
+
       </YStack>
-
-      <H6>Some Tamagui components in action.</H6>
-
-      {/* <Mapbox.MapView style={{ flex: 1 }} /> */}
-
     </View>
 
   )

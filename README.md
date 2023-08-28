@@ -473,3 +473,39 @@ warn、alert、Expo Tools、chrome
 ctrl + shift + p  
 
 Expo: Debug...
+
+
+
+## EAS
+
+> 1. https://docs.expo.dev/build/setup/ 
+> 2. https://docs.expo.dev/build-reference/build-configuration/
+> 3. https://expo.dev/changelog/2023/08-10-custom-builds
+
+> 4. https://www.youtube.com/watch?v=C6b-TXFtJDs
+> 5. https://blog.logrocket.com/building-custom-maps-react-native-mapbox/
+
+有一些功能在 Expo Go 上无法运行，需要 Native 的环境，比如：地图、推送、支付等，所以这里就需要 EAS 了。
+
+
+这里的调试步骤比较多，需要注意一下，下面简述一下，具体的操作步骤参见上面的链接。
+主要描述一下需要做的事情，以及需要注意的地方。既然是需要 Native 的环境，所以这里需要 EAS Build 。
+因此就需要配置 EAS 的环境。
+
+这里拿地图 Mapbox 举例。
+
+1. 安装 Mapbox ，这里参见上面的链接"5" Expo 安装 Mapbox 。
+2. 生成地图 Token ，写入项目中。
+
+这样就完成了项目中的依赖安装，下面就是配置 EAS 的环境了。
+
+1. 全局安装 EAS CLI 。
+2. 使用 Expo 账号登录 EAS 。
+3. 配置 EAS 项目，如果是已经存在的项目，那么就需要在项目中添加 EAS 的配置文件。（打开项目，运行命令，具体参见链接"5"中的内容）
+4. 打开发包 `eas build --profile development --platform android` （上传到 Expo 了）
+
+EAS 运行打包的时候，其实能在 Expo 网站能看的到 Build Log 。
+
+5. 然后还需要引入 expo-dev-client 依赖。
+6. 然后就可以 EAS 运行调试了 `npx expo start --dev-client`。
+

@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pinkypig.mydays"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +33,6 @@
     },
     "plugins": [
       "expo-router",
-
       [
         "@rnmapbox/maps",
         {

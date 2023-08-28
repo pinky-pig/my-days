@@ -1,9 +1,8 @@
-import { View, useColorScheme } from 'react-native'
+import { Dimensions, View, useColorScheme } from 'react-native'
 import { Label, Sheet, Switch, View as TView, XGroup, XStack, YStack } from 'tamagui'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import Colors from '~/constants/Colors'
 import { setFellowDeviceColorScheme, setThemeName } from '~/store/reducers'
 import type { IReducer } from '~/store'
 import { Superellipse } from '~/components/Superellipse'
@@ -62,6 +61,8 @@ export function ThemeSheet(
   const themeName = useSelector((state: IReducer) => state.balance.themeName)
   const isFellowDeviceColorScheme = useSelector((state: IReducer) => state.balance.isFellowDeviceColorScheme)
 
+  const screenWidth = Dimensions.get('window').width
+
   useEffect(() => {
     // 1. 如果是跟随设备的话
     if (isFellowDeviceColorScheme)
@@ -105,9 +106,7 @@ export function ThemeSheet(
         {/* 中间的小棍 */}
         <Sheet.Handle
           height={6}
-          backgroundColor={
-            colorScheme === 'dark' ? Colors.dark.thirdColor : Colors.light.thirdColor
-          }
+          backgroundColor='$color1'
           transform={[
             { translateY: 24 },
           ]}
@@ -169,15 +168,12 @@ export function ThemeSheet(
               alignSelf="center"
               bordered
               flexDirection='row'
-              justifyContent='space-between'
+              // justifyContent='center'
               flexWrap="wrap"
               width={'100%'}
               size="$8"
-              paddingLeft="$4"
-              paddingRight="$4"
-              paddingTop="$5"
-              paddingBottom="$5"
-              gap={20}
+              paddingTop="$4"
+              paddingBottom="$4"
             >
 
               {
@@ -188,10 +184,11 @@ export function ThemeSheet(
                     >
                       <TView
                         style={{
-                          width: 60,
                           height: 60,
-                          marginLeft: 10,
-                          marginRight: 10,
+                          width: screenWidth / 4 - 4,
+                          marginRight: 18, // 间距
+                          marginBottom: 10,
+                          marginTop: 10,
                           position: 'relative',
                         }}
                         onPress={() => handleSetThemeName(item)}

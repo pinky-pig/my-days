@@ -37,6 +37,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          // headerShown: false,
           tabBarLabel: () => null,
           tabBarIcon: ({ color }) => <Ionicons name="ios-heart-circle" size={28} color={color} />,
           headerRight: () => (

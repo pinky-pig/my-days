@@ -1,7 +1,9 @@
-import { Frame, Handle, Label, YStack } from 'tamagui'
+import { Button, Frame, Handle, Input, XStack, YStack } from 'tamagui'
+import { Apple, Search } from '@tamagui/lucide-icons'
 
 import { Stack, styled } from '@tamagui/core'
 import { createSheet } from '@tamagui/sheet'
+import React from 'react'
 
 const Overlay = styled(Stack, {
   variants: {
@@ -32,6 +34,12 @@ export default function MapSheet(
   // 如果是跟随设备，那么就设备优先
   // 如果不跟随设备，那么就是 colorMode 主题
 
+  const [position, setPosition] = React.useState(1)
+
+  function handleClickInput() {
+    setPosition(0)
+  }
+
   return (
     <>
       {/* My sheet */}
@@ -41,12 +49,12 @@ export default function MapSheet(
         modal={false} // false 就是页面内的 sheet
         open={true}
         // onOpenChange={setOpen}
-        snapPoints={[85, 50, 25]} // 这里可以设置高度
+        snapPoints={[100, 50, 25]} // 这里可以设置高度
         defaultPosition={1}
-        // disableDrag // 配合 defaultPosition 的 index，让其高度在 25 ，且不能拖拽
+        // disableDrag // 禁止拖拽
         dismissOnSnapToBottom={false}
-        // position={position} // snapPoints 上面高度改变的时候
-        // onPositionChange={setPosition} // snapPoints 上面高度改变的时候
+        position={position} // snapPoints 上面高度改变的时候
+        onPositionChange={setPosition} // snapPoints 上面高度改变的时候
         zIndex={100_000}
         animation="bouncy"
       >
@@ -55,7 +63,6 @@ export default function MapSheet(
           animation="lazy"
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
-          // style={{ opacity: 0, pointerEvents: 'none', backgroundColor: 'red', display: 'none' }}
         />
         {/* 中间的小棍 */}
         <Sheet.Handle
@@ -82,14 +89,23 @@ export default function MapSheet(
             paddingRight="$4"
           >
 
-            <Label
-              paddingRight="$0"
-              minWidth={90}
-              justifyContent="flex-end"
-              marginBottom='$4'
-            >
-              主题模式
-            </Label>
+            <XStack alignItems="center" space="$2">
+
+              <Input
+                flex={1}
+                size="$4"
+                placeholder={'搜索地点'}
+              />
+
+              <Button size="$4" icon={Search} />
+
+            </XStack>
+
+            <Button
+              size="$4"
+              icon={Apple}
+              onPress={handleClickInput}
+            />
 
           </YStack>
 

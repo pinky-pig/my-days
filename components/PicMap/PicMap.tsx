@@ -8,11 +8,16 @@ Mapbox.setAccessToken('pk.eyJ1IjoicGlua3ktcGlnIiwiYSI6ImNsZnJuMTQxazAwMmUzb256dW
 
 function PicMap() {
   const screenWidth = Dimensions.get('window').width
+  const screenHeight = Dimensions.get('window').height
 
   return (
     <View style={{
       flex: 1,
       width: screenWidth,
+      height: screenHeight,
+      position: 'absolute',
+      top: 0,
+      left: 0,
       backgroundColor: '#fff',
     }}>
       <Mapbox.MapView style={{

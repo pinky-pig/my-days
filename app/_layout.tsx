@@ -14,6 +14,8 @@ import { MySafeAreaView } from '~/components/MySafeAreaView'
 import type { IReducer } from '~/store'
 import { store } from '~/store'
 
+import 'react-native-gesture-handler'
+
 const persistor = persistStore(store)
 
 export {

@@ -73,7 +73,7 @@ export default function MapSheet(
           height={6}
           backgroundColor='$color1'
           transform={[
-            { translateY: 24 },
+            { translateY: 10 },
           ]}
         />
 
